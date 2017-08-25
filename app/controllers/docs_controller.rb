@@ -5,7 +5,6 @@ class DocsController < ApplicationController
   end
 
   def show
-    @doc = Doc.find(params[:id])
   end
 
   def new
@@ -25,15 +24,22 @@ class DocsController < ApplicationController
   end
 
   def update
+    if @doc.update(doc_params)
+      redirect_to @doc
+    else
+      render 'edit'
+    end
   end
 
   def destroy
+    @doc.destroy
+    redirect_to docs_path
   end
 
   private
 
   def find_doc
-    Doc.find(params[:id])
+    @doc = Doc.find(params[:id])
   end
 
   def doc_params
